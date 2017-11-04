@@ -1,0 +1,47 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- This stylesheet contains specific styles for displaying the map
+         on this page. Replace it with your own styles as described in the
+         documentation:
+         https://developers.google.com/maps/documentation/javascript/tutorial -->
+    <link rel="stylesheet" href="{% static 'map.css'%}">
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+      function initMap() {
+        var location;
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            location = position.coords
+          });
+        }
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: myLatLng,
+          zoom: 4
+        });
+
+        // Create a marker and set its position.
+        var marker = new google.maps.Marker({
+          map: map,
+          position: myLatLng,
+          title: 'Hello World!'
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF8PoyP2-AwE13ONO7qwz6wXeUGTnmD28&callback=initMap"
+        async defer></script>
+        Total Cost: ${{total_cost| intcomma}}
+        Wind:       {{num_turbines}}
+        Sun:        {{num_panels}}
+
+  </body>
+</html>
