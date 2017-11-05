@@ -17,8 +17,7 @@ PRICE_PER_PANEL = 250
 TURBINE_OUTPUT = 3000 #in kwh running for a year
 PRICE_PER_TURBINE = 3274490.00
 
-x = []
-y = []
+
 location = {"average_sun_per_day": 6, "average_wind_per_day": 12, "population": 1}
 
 pop = getPop()

@@ -15,16 +15,18 @@ PRICE_PER_TURBINE = 3274490.00
 def map(request):
     return render(request, "map.html")
 
-
+tot_nrg = 0
 # could use django rest framework in the future
 def calc(request):
     city = request.GET.get("city")
     state = request.GET.get("state")
-    location = {"average_sun_per_day": 1, "average_wind_per_day": 16}
-
+    avg_sun_pd = float(request.GET.get("sun_year_hours"))/365.0
+    avg_wind_pd = float(request.GET.get("wind_year_hours"))/365.0
     pop = getPop(city, state)
-    location["population"] = pop
 
+    location = {"average_sun_per_day": avg_sun_pd,
+                "average_wind_per_day": avg_wind_pd,
+                "population": pop}
     num_houses = pop / 3
     tot_nrg = KWH_PH * num_houses
 
@@ -37,32 +39,29 @@ def calc(request):
     best_num_panels = 0
     best_num_turbines = 0
 
+    solar_to_wind = []
+    get_wind = lambda num_solar: (tot_nrg - (num_solar * single_panel_potential)) / single_wind_potential
+    get_solar = lambda num_wind: (tot_nrg - (num_wind * single_wind_potential)) / single_panel_potential
 
-    # for i in range(num_wind_turbines):
-    #     current_turbines = num_wind_turbines - i
-    #
-    for i in range(100):
-        '''
-        proposed_cost = (PRICE_PER_PANEL * (i/100) * num_solar_panels) + (PRICE_PER_TURBINE * (1- (i/100)) * num_wind_turbines)
-        print("best panels: {}".format(best_num_panels))
-        print("best turbines: {}".format(best_num_turbines))
-        print("best proposed_cost {}".format(proposed_cost))
-        if proposed_cost < total_cost:
-            total_cost = proposed_cost
-            best_num_panels = (i/100) * num_solar_panels
-            best_num_turbines = (1-(i/100)) * num_wind_turbines
-        '''
-        proposed_cost = (PRICE_PER_PANEL * (1-(i/100.0)) * num_solar_panels) + (PRICE_PER_TURBINE * ((i/100.0)) * num_wind_turbines)
+    for s in range(int(num_solar_panels)):
+        solar_to_wind.append([s, get_wind(s)])
+
+    for w in range(int(num_wind_turbines)):
+        solar_to_wind.append([get_solar(w), w])
+
+    for (s, w) in solar_to_wind:
+        proposed_cost = (PRICE_PER_PANEL * s) + (PRICE_PER_TURBINE * w)
 
         if proposed_cost < total_cost:
             total_cost = proposed_cost
-            best_num_panels = (1-(i/100.0)) * num_solar_panels
-            best_num_turbines = ((i/100.0)) * num_wind_turbines
-    wind_factor = 5
-    solar_factor = 100
+            best_num_panels = s
+            best_num_turbines = w
+
+    wind_factor = 10
+    solar_factor = 1000
     return JsonResponse({   "num_turbines": best_num_turbines,
                             "num_panels": best_num_panels,
-                            "total_cost": round(total_cost),
+                            "total_cost": round(total_cost, 2),
                             "turbine_factor": wind_factor,
                             "solar_factor": solar_factor})
 
@@ -70,4 +69,7 @@ def calc(request):
 
 def getPop(city_name, state):
     city = models.City.objects.filter(name__icontains=city_name, state__icontains=state).first()
-    return city.population
+    try:
+        return city.population
+    except Exception:
+        return 100000
