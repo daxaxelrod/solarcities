@@ -23,6 +23,8 @@ def calc(request):
     avg_sun_pd = float(request.GET.get("sun_year_hours"))/365.0
     avg_wind_pd = float(request.GET.get("wind_year_hours"))/365.0
     pop = getPop(city, state)
+    print("Panel: ", avg_sun_pd)
+    print("Wind: ", avg_wind_pd)
 
     location = {"average_sun_per_day": avg_sun_pd,
                 "average_wind_per_day": avg_wind_pd,
@@ -43,13 +45,22 @@ def calc(request):
     get_wind = lambda num_solar: (tot_nrg - (num_solar * single_panel_potential)) / single_wind_potential
     get_solar = lambda num_wind: (tot_nrg - (num_wind * single_wind_potential)) / single_panel_potential
 
-    for s in range(int(num_solar_panels)):
-        solar_to_wind.append([s, get_wind(s)])
+    for s in range(0, int(num_solar_panels), 1000):
+        temp = [s, get_wind(s)]
+        if temp in solar_to_wind:
+            continue
+        else:
+            solar_to_wind.append(temp)
 
-    for w in range(int(num_wind_turbines)):
-        solar_to_wind.append([get_solar(w), w])
+    for w in range(0, int(num_wind_turbines), 10):
+        temp = [get_solar(w), w]
+        if temp in solar_to_wind:
+            continue
+        else:
+            solar_to_wind.append(temp)
 
     for (s, w) in solar_to_wind:
+        print (s)
         proposed_cost = (PRICE_PER_PANEL * s) + (PRICE_PER_TURBINE * w)
 
         if proposed_cost < total_cost:
@@ -57,15 +68,27 @@ def calc(request):
             best_num_panels = s
             best_num_turbines = w
 
+
+    if best_num_panels == 0:
+        percent = np.random.normal(.2, .1)
+        while percent <= 0:
+            percent = np.random.normal(.2, .1)
+        best_num_turbines -= best_num_turbines * percent
+        best_num_panels = best_num_turbines * percent * single_wind_potential / single_panel_potential
+    if best_num_turbines == 0:
+        percent = np.random.normal(.2, .1)
+        while percent <= 0:
+            percent = np.random.normal(.2, .1)
+        best_num_panels -= best_num_panels * percent
+        best_num_turbines = best_num_panels * percent * single_panel_potential / single_wind_potential
+
     wind_factor = 10
-    solar_factor = 1000
+    solar_factor = 10000
     return JsonResponse({   "num_turbines": best_num_turbines,
                             "num_panels": best_num_panels,
                             "total_cost": round(total_cost, 2),
                             "turbine_factor": wind_factor,
                             "solar_factor": solar_factor})
-
-
 
 def getPop(city_name, state):
     city = models.City.objects.filter(name__icontains=city_name, state__icontains=state).first()
