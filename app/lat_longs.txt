@@ -1,0 +1,28 @@
+"Los Angeles"34.0522° N, 118.2437° W
+"Birmingham"52.4862° N, 1.8904° W
+"Atlanta"33.7490° N, 84.3880° W
+"Memphis" 35.1495° N, 90.0490° W
+"Jacksonville" 30.3322° N, 81.6557° W
+"Tampa" 27.9506° N, 82.4572° W
+"Houston" 29.7604° N, 95.3698° W
+"Miami" 25.7617° N, 80.1918° W
+"Kansas City" 39.0997° N, 94.5786° W
+"Detroit" 42.3314° N, 83.0458° W
+"Raleigh" 35.7796° N, 78.6382° W
+"Las Vegas" 36.1699° N, 115.1398° W
+"Buffalo" 42.8864° N, 78.8784° W
+"Oklahoma City" 35.4676° N, 97.5164° W
+"Virginia Beach" 36.8529° N, 75.9780° W
+"St. Louis" 38.6270° N, 90.1994° W
+"Richmond" 37.5407° N, 77.4360° W
+"Cincinnati" 39.1031° N, 84.5120° W
+"Boston" 42.3601° N, 71.0589° W
+"Washington" 38.9072° N, 77.0369° W
+"Minneapolis" 44.9778° N, 93.2650° W
+"San Antonio" 29.4241° N, 98.4936° W
+"New Orleans" 29.9511° N, 90.0715° W
+"Salt Lake City" 40.7608° N, 111.8910° W
+"Cleveland" 41.4993° N, 81.6944° W
+"Milwaukee" 43.0389° N, 87.9065° W
+"Portland" 45.5231° N, 122.6765° W
+"Seattle" 47.6062° N, 122.3321° W
