@@ -23,8 +23,6 @@ def calc(request):
     avg_sun_pd = float(request.GET.get("sun_year_hours"))/365.0
     avg_wind_pd = float(request.GET.get("wind_year_hours"))/365.0
     pop = getPop(city, state)
-    print("Panel: ", avg_sun_pd)
-    print("Wind: ", avg_wind_pd)
 
     location = {"average_sun_per_day": avg_sun_pd,
                 "average_wind_per_day": avg_wind_pd,
@@ -60,7 +58,6 @@ def calc(request):
             solar_to_wind.append(temp)
 
     for (s, w) in solar_to_wind:
-        print (s)
         proposed_cost = (PRICE_PER_PANEL * s) + (PRICE_PER_TURBINE * w)
 
         if proposed_cost < total_cost:
