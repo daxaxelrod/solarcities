@@ -1,0 +1,48 @@
+Atlanta 2738 5241
+Austin 2644 4801
+Baltimore 2582 4989
+Birmingham 2641 3531
+Boston 2634 6622
+Buffalo 2207 6493
+Charlotte 2821 3761
+Chicago 2508 5948
+Cincinnati 2335 5189
+Cleveland 2280 5940
+Columbus 2183 4602
+Dallas 2850 6054
+Denver 3107 4968
+Detroit 2436 5909
+Hartford 2585 4709
+Houston 2578 4004
+Indianapolis 2440 5582
+Jacksonville 2880 4184
+Kansas City 2810 6075
+Las Vegas 3825 5146
+Los Angeles 3050 3915
+Louisville 2514 4638
+Memphis 2888 4982
+Miami 3154 5344
+Milwaukee 2484 6385
+Minneapolis 2711 5956
+Nashville 2510 4336
+New Orleans 2649 4552
+New York 2535 5231
+Oklahoma City 3089 6610
+Philadelphia 2498 4905
+Phoenix 3872 5369
+Pittsburgh 2021 2437
+Portland 2341 5045
+Providence 2606 4292
+Raleigh 2606 5965
+Richmond 2829 3889
+Rochester 2298 4122
+Sacramento 3608 5535
+Salt Lake City 3029 4239
+San Antonio 2629 5056
+San Diego 3055 5257
+San Francisco 3300 3481
+Seattle 2170 6088
+St. Louis 2594 5025
+Tampa 2927 5516
+Virginia Beach 2695 4597
+Washington 2528 6017
