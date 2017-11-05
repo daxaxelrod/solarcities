@@ -70,9 +70,9 @@
         //clear old images
         $("#turbine_pic_container").empty();
         $("#solar_pic_container").empty();
-        $("#total_cost").text(total_cost + "");
+        $("#total_cost").text(new Intl.NumberFormat().format(total_cost) + "");
 
-        $("#turbine_count").text(turbine_count + "");
+        $("#turbine_count").text(Math.round(turbine_count) + "");
         $("#turbine_factor").text(turbine_factor + "");
         var turbine_iters = turbine_count/turbine_factor;
         for (var i = 0; i< turbine_iters; i++) {
@@ -82,7 +82,8 @@
 
         }
 
-        $("#panel_count").text(panel_count + "");
+        $("#panel_count").text(Math.round(panel_count) + "");
+        console.log(panel_factor);
         $("#panel_factor").text(panel_factor + "");
         var panel_iters = panel_count/panel_factor;
         for (var i = 0; i< panel_iters; i++) {
@@ -141,6 +142,7 @@
                       data["num_panels"],
                       data["solar_factor"]
                     );
+              $(".progress").toggle();
             });
 
 
@@ -183,7 +185,7 @@
                       <!-- <img style="max-width:15%;" src="" alt=""> -->
 
                     <br><br>
-                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png" alt=""> = <span id="turbine_factor"></span> 100kW Turbine
+                    <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png" alt=""> = <strong><span id="turbine_factor"></span></strong>, 100kW Turbine
                   </div>
                 </div>
               </div>
@@ -195,7 +197,7 @@
 
                     </div>
                     <br><br>
-                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png" alt=""> = <span id="solar_factor"></span> .255W Panels
+                    <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png" alt=""> = <strong><span id="panel_factor"></span></strong>, .255W Panels
                   </div>
                 </div>
               </div>
