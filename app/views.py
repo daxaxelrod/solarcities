@@ -6,12 +6,12 @@ import numpy as np
 KWH_PH = 901*12
 PANEL_OUTPUT = .255
 PRICE_PER_PANEL = 250
-TURBINE_OUTPUT = 100 #in kwh running for a year
-PRICE_PER_TURBINE = 6500 * TURBINE_OUTPUT
+TURBINE_OUTPUT = 3000 #in kwh running for a year
+PRICE_PER_TURBINE = 3274490.00
 
 def map(request):
 
-    location = {"average_sun_per_day": 6, "average_wind_per_day": 6, "population": 1}
+    location = {"average_sun_per_day": 1, "average_wind_per_day": 16, "population": 1}
 
     pop = getPop()
     num_houses = pop / 3
@@ -27,11 +27,10 @@ def map(request):
     best_num_turbines = 0
 
 
-
-    for i in np.arange(0,101,10):
-        print("________")
-        print((1- (i/100)))
-        print("________")
+    # for i in range(num_wind_turbines):
+    #     current_turbines = num_wind_turbines - i
+    #
+    for i in range(100):
         '''
         proposed_cost = (PRICE_PER_PANEL * (i/100) * num_solar_panels) + (PRICE_PER_TURBINE * (1- (i/100)) * num_wind_turbines)
         print("best panels: {}".format(best_num_panels))
@@ -50,9 +49,16 @@ def map(request):
             total_cost = proposed_cost
             best_num_panels = (1-(i/100.0)) * num_solar_panels
             best_num_turbines = ((i/100.0)) * num_wind_turbines
-
-    return render(request, "map.html", {"num_turbines": best_num_turbines, "num_panels": best_num_panels, "total_cost": total_cost})
+    wind_factor = 5
+    solar_factor = 100
+    return render(request, "map.html", {"num_turbines": best_num_turbines,
+                                        "num_panels": best_num_panels,
+                                        "total_cost": round(total_cost),
+                                        "turbine_range": range(int(best_num_turbines/wind_factor)),
+                                        "turbine_factor": wind_factor,
+                                        "solar_range": range(int(best_num_panels/solar_factor)),
+                                        "solar_factor": solar_factor})
 
 
 def getPop():
-    return 300000
+    return 3000
