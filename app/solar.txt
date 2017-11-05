@@ -1,0 +1,48 @@
+Atlanta, Georgia    2738    110
+Austin, Texas   2644    115
+Baltimore, Maryland 2582    105
+Birmingham, Alabama 2641    99
+Boston, Massachusetts   2634    98
+Buffalo, New York   2207    54
+Charlotte, North Carolina   2821    109
+Chicago, Illinois   2508    84
+Cincinnati, Ohio    2335    81
+Cleveland, Ohio    2280    66
+Columbus, Ohio   2183    72
+Dallas, Texas   2850    135
+Denver, Colorado    3107    115
+Detroit, Michigan   2436    75
+Hartford, Connecticut   2585    82
+Houston, Texas  2578    90
+Indianapolis, Indiana    2440   88
+Jacksonville, Florida   2880    94
+Kansas City, Missouri   2810    120
+Las Vegas, Nevada   3825    210
+Los Angeles, California   3050    147
+Louisville, Kentucky    2514    93
+Memphis, Tennessee    2888    118
+Miami, Florida  3154    74
+Milwaukee, Wisconsin    2484    90
+Minneapolis, Minnesota  2711    95
+Nashville, Tennessee    2510    102
+New Orleans, Louisiana  2649    101
+New York, New York  2535    107
+Oklahoma City, Oklahoma 3089    139
+Philadelphia, Pennsylvania  2498    93
+Phoenix, Arizona    3872    211
+Pittsburgh, Pennsylvania    2021    59
+Portland, Oregon    2341    68
+Providence, Rhode Island    2606    98
+Raleigh, North Carolina 2606    111
+Richmond, Virginia  2829    100
+Rochester, New York 2298    61
+Sacramento, California  3608    188
+Salt Lake City, Utah    3029    125
+San Antonio, Texas  2629    105
+San Diego, California   3055    146
+San Francisco, California  3300    160
+Seattle, Washington 2170    58
+St. Louis, Missouri 2594    101
+Tampa, Florida  2927    101
+Virginia Beach, Virginia    2695    106
+Washington, DC  2528    96
