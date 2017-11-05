@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+
+from . import models
 import math
 import numpy as np
 
@@ -10,10 +13,18 @@ TURBINE_OUTPUT = 3000 #in kwh running for a year
 PRICE_PER_TURBINE = 3274490.00
 
 def map(request):
+    return render(request, "map.html")
 
-    location = {"average_sun_per_day": 1, "average_wind_per_day": 16, "population": 1}
 
-    pop = getPop()
+# could use django rest framework in the future
+def calc(request):
+    city = request.GET.get("city")
+    state = request.GET.get("state")
+    location = {"average_sun_per_day": 1, "average_wind_per_day": 16}
+
+    pop = getPop(city, state)
+    location["population"] = pop
+
     num_houses = pop / 3
     tot_nrg = KWH_PH * num_houses
 
@@ -42,23 +53,21 @@ def map(request):
             best_num_turbines = (1-(i/100)) * num_wind_turbines
         '''
         proposed_cost = (PRICE_PER_PANEL * (1-(i/100.0)) * num_solar_panels) + (PRICE_PER_TURBINE * ((i/100.0)) * num_wind_turbines)
-        print("best panels: {}".format(best_num_panels))
-        print("best turbines: {}".format(best_num_turbines))
-        print("best proposed_cost {}".format(proposed_cost))
+
         if proposed_cost < total_cost:
             total_cost = proposed_cost
             best_num_panels = (1-(i/100.0)) * num_solar_panels
             best_num_turbines = ((i/100.0)) * num_wind_turbines
     wind_factor = 5
     solar_factor = 100
-    return render(request, "map.html", {"num_turbines": best_num_turbines,
-                                        "num_panels": best_num_panels,
-                                        "total_cost": round(total_cost),
-                                        "turbine_range": range(int(best_num_turbines/wind_factor)),
-                                        "turbine_factor": wind_factor,
-                                        "solar_range": range(int(best_num_panels/solar_factor)),
-                                        "solar_factor": solar_factor})
+    return JsonResponse({   "num_turbines": best_num_turbines,
+                            "num_panels": best_num_panels,
+                            "total_cost": round(total_cost),
+                            "turbine_factor": wind_factor,
+                            "solar_factor": solar_factor})
 
 
-def getPop():
-    return 3000
+
+def getPop(city_name, state):
+    city = models.City.objects.filter(name__icontains=city_name, state__icontains=state).first()
+    return city.population
