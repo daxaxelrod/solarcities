@@ -14,14 +14,96 @@
     <div id="map"></div>
     <script>
 
+    var turbine_src = "https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png";
+    var panel_src = "https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png";
+
+    var cities = {
+        "San Diego" : {lat: 32.7157, long: -117.1611, state: "California"},
+        "Rochester" : {lat: 43.1610, long: -77.6109, state: "New York"},
+        "Chicago" : {lat: 41.8781, long: -87.6298, state: "Illinois"},
+        "Austin" : {lat: 30.2672, long: -97.7431, state: "Texas"},
+        "Philadelphia" : {lat:39.9526 , long: -75.1652, state: "Pennsylvania"},
+        "Denver" : {lat: 39.7392, long: -104.9903, state: "Colorado"},
+        "Dallas" : {lat: 32.7767, long: -96.7970, state: "Texas"},
+        "Providence" : {lat: 41.8240, long: -71.4128, state: "Rhode Island"},
+        "Louisville" : {lat: 38.2527, long: -85.7585, state: "Kentucky"},
+        "San Francisco" : {lat: 37.7749, long: -122.4194, state: "California"},
+        "Columbus" : {lat: 39.9612, long:-82.9988, state: "Ohio"},
+        "Indianapolis" : {lat: 39.7684, long: -86.1581, state: "Andiana"},
+        "Phoenix" : {lat: 33.4484, long:-112.0740, state: "Arizona"},
+        "Charlotte" : {lat:35.2271 , long: -80.8431, state: "south carolina"},
+        "Pittsburgh" : {lat: 40.4406, long: -79.9959, state: "Pennsylvania"},
+        "Sacramento" : {lat: 38.5816, long: -121.4944, state: "California"},
+        "Nashville" : {lat: 36.1627, long: -86.7816, state: "tennessee"},
+        "New York" : {lat: 40.7128, long: -74.0060, state: "New York"},
+        "Hartford" : {lat: 41.7637, long: -72.6851, state: "connecticut"},
+        "Baltimore" : {lat: 39.2904, long: -76.6122, state: "Maryland"},
+        "Los Angeles" : {lat: 34.0522, long: -118.2437, state: "California"},
+        "Birmingham" : {lat: 52.4862, long: -1.8904, state: "Alabama"},
+        "Atlanta" : {lat: 33.7490, long: -84.3880, state: "Georgia"},
+        "Memphis" : {lat: 35.1495, long: -90.0490, state: "Tennessee"},
+        "Jacksonville" : {lat: 30.3322, long: -81.6557, state: "Florida"},
+        "Tampa" : {lat: 27.9506, long: -82.4572, state: "Florida"},
+        "Houston" : {lat: 29.7604, long: -95.3698, state: "Texas"},
+        "Miami" : {lat: 25.7617, long: -80.1918, state: "Florida"},
+        "Kansas City" : {lat:  39.0997, long: -94.5786, state: "Missouri"},
+        "Detroit" : {lat: 42.3314, long: -83.0458, state: "Michigan"},
+        "Raleigh" : {lat: 35.7796, long: -78.6382, state: "North Carolina"},
+        "Las Vegas" : {lat: 36.1699, long: -115.1398, state: "Nevada"},
+        "Buffalo" : {lat: 42.8864, long: -78.8784, state: "New York"},
+        "Oklahoma City" : {lat: 35.4676, long: -97.5164, state: "Oklahoma"},
+        "Virginia Beach" : {lat: 36.8529, long:  -75.9780, state: "Virginia"},
+        "St. Louis" : {lat: 38.6270, long: -90.1994, state: "Missouri"},
+        "Richmond" : {lat: 37.5407, long: -77.4360, state: "Virginia"},
+        "Cincinnati" : {lat: 39.1031, long: -84.5120, state: "Ohio"},
+        "Boston" : {lat: 42.3601, long: -71.0589, state: "Massachusetts"},
+        "Minneapolis" : {lat: 44.9778, long: -93.2650, state: "Minnesota"},
+        "San Antonio" : {lat: 29.4241, long: -98.4936, state: "Texas"},
+        "New Orleans": {lat: 29.9511, long: -90.0715, state: "Louisiana"},
+        "Salt Lake City": {lat: 40.7608, long: -111.8910, state: "Utah"},
+        "Cleveland": {lat: 41.4993, long: -81.6944, state: "Ohio"},
+        "Portland": {lat: 45.5231, long: -122.6765, state: "Oregon"},
+        "Seattle": {lat: 47.6062, long: -122.3321, state: "Washington"},
+    }
+
+      function updateUi(total_cost, turbine_count, turbine_factor, panel_count, panel_factor) {
+        //clear old images
+        $("#turbine_pic_container").empty();
+        $("#solar_pic_container").empty();
+        $("#total_cost").text(total_cost + "");
+
+        $("#turbine_count").text(turbine_count + "");
+        $("#turbine_factor").text(turbine_factor + "");
+        var turbine_iters = turbine_count/turbine_factor;
+        for (var i = 0; i< turbine_iters; i++) {
+          img_literal = `<img style="max-width:15%;" src="`+turbine_src+`" alt="">`;
+          $("#turbine_pic_container").append(img_literal);
+
+
+        }
+
+        $("#panel_count").text(panel_count + "");
+        $("#panel_factor").text(panel_factor + "");
+        var panel_iters = panel_count/panel_factor;
+        for (var i = 0; i< panel_iters; i++) {
+          img_literal = `<img style="max-width:15%;" src="`+panel_src+`" alt="">`;
+          $("#solar_pic_container").append(img_literal);
+        }
+      }
+
       function initMap() {
+        var infowindow = new google.maps.InfoWindow();
+
         var location;
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-            location = position.coords
+            location = position.coords;
+            var myLatLng = {lat: location.latitude, lng: location.longitude};
           });
+        } else {
+
         }
-        var myLatLng = {lat: -25.363, lng: 131.044};
+        var myLatLng = {lat: 42.6418940, lng: -71.3335640};
 
         // Create a map object and specify the DOM element for display.
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -30,11 +112,48 @@
         });
 
         // Create a marker and set its position.
+    function placeMarker( city ) {
+        var latLng = new google.maps.LatLng( cities[city].lat, cities[city].long);
         var marker = new google.maps.Marker({
-          map: map,
-          position: myLatLng,
-          title: 'Hello World!'
+          position : latLng,
+          map      : map
         });
+
+        var contentString = `
+            <div class="content">
+              <h1>`+city+`</h1>
+              <div class="progress" id='city_spinner'>
+                  <div class="indeterminate"></div>
+              </div>
+            </div>
+        `
+        google.maps.event.addListener(marker, 'click', function(){
+            infowindow.close(); // Close previously opened infowindow
+            infowindow.setContent( "<div id='infowindow'>"+ contentString +"</div>");
+            infowindow.open(map, marker);
+
+            $.get(window.location.href+"panels_and_turbines/", {city: city, state: cities[city]["state"]}, function(data) {
+              console.log(data);
+              updateUi(
+                      data["total_cost"],
+                      data["num_turbines"],
+                      data["turbine_factor"],
+                      data["num_panels"],
+                      data["solar_factor"]
+                    );
+            });
+
+
+
+        });
+      }
+
+  for(var city in cities) {
+    placeMarker(city)
+  }
+
+
+
       }
 
     </script>
@@ -49,7 +168,7 @@
             <div class="col m3 s6">
               <div class="card">
                 <div class="card-content">
-                      <h5>Total Cost: ${{total_cost| intcomma}}</h5>
+                      <h5>Total Cost: $<span id="total_cost"></span></h5>
                 </div>
               </div>
             </div>
@@ -57,22 +176,26 @@
               <div class="col s6">
                 <div class="card">
                   <div class="card-content">
-                    {% for turbine in turbine_range %}
-                      <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png" alt="">
-                    {%endfor %}
+                    <span id='turbine_count'></span> Turbines
+                    <div id="turbine_pic_container">
+
+                    </div>
+                      <!-- <img style="max-width:15%;" src="" alt=""> -->
+
                     <br><br>
-                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png" alt=""> = {{turbine_factor}} 100kW Turbine
+                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/2076-200.png" alt=""> = <span id="turbine_factor"></span> 100kW Turbine
                   </div>
                 </div>
               </div>
               <div class="col s6">
                 <div class="card">
                   <div class="card-content">
-                    {% for panel in solar_range %}
-                      <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png" alt="">
-                    {%endfor %}
+                    <span id='panel_count'></span> Panels
+                    <div id="solar_pic_container">
+
+                    </div>
                     <br><br>
-                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png" alt=""> = {{solar_factor}} .255W Panels
+                    1 <img style="max-width:15%;" src="https://d30y9cdsu7xlg0.cloudfront.net/png/122071-200.png" alt=""> = <span id="solar_factor"></span> .255W Panels
                   </div>
                 </div>
               </div>
