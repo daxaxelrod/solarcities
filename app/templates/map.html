@@ -9,6 +9,7 @@
          https://developers.google.com/maps/documentation/javascript/tutorial -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
     <link rel="stylesheet" href="{% static 'map.css'%}">
+    <link rel="stylesheet" href="{% static 'animate.css'%}">
     <script src="{% static 'cities.js' %}" charset="utf-8"></script>
   </head>
   <body>
@@ -31,10 +32,13 @@
         $("#turbine_factor").text(turbine_factor + "");
         var turbine_iters = turbine_count/turbine_factor;
         for (var i = 0; i< turbine_iters; i++) {
-          img_literal = `<img style="max-width:15%;" src="`+turbine_src+`" alt="">`;
+          if (i % 5 == 0) {
+            //adding a fun little animation
+            img_literal = `<img class='animated' onmouseover="$(this).addClass('tada')" style="max-width:15%;" src="`+turbine_src+`" alt="">`;
+          } else {
+            img_literal = `<img style="max-width:15%;" src="`+turbine_src+`" alt="">`;
+          }
           $("#turbine_pic_container").append(img_literal);
-
-
         }
 
         $("#panel_count").text(Math.round(panel_count) + "");
@@ -42,7 +46,13 @@
         $("#panel_factor").text(panel_factor + "");
         var panel_iters = panel_count/panel_factor;
         for (var i = 0; i< panel_iters; i++) {
-          img_literal = `<img style="max-width:15%;" src="`+panel_src+`" alt="">`;
+          if (i % 8 == 0) {
+            //adding a fun little animation
+            img_literal = `<img class='animated' onmouseover="$(this).addClass('bounce')" style="max-width:15%;" src="`+panel_src+`" alt="">`;
+          } else {
+            img_literal = `<img style="max-width:15%;" src="`+panel_src+`" alt="">`;
+          }
+
           $("#solar_pic_container").append(img_literal);
         }
       }
